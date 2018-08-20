@@ -15,7 +15,7 @@ cat meteo-bigdata.csv|cut -d ';' -f 8,2 > meteo-bigdata-shrinked.csv
 awk  -F";" '{print $2 ";" $1}' meteo-bigdata-shrinked.csv > meteo-bigdata-shrinked-switched.csv
 head -1 meteo-bigdata-shrinked-switched.csv > header.csv
 grep -v 't;date' meteo-bigdata-shrinked-switched.csv > meteo-bigdata-shrinked-switched-clean.csv
-cat header.csv meteo-bigdata-shrinked-switched-clean.csv > meteo-bigdata-shrinked-switched-clean-withheader.csv
+cat ../header.csv meteo-bigdata-shrinked-switched-clean.csv > meteo-bigdata-shrinked-switched-clean-withheader.csv
 #:%s/;20[[:digit:]][[:digit:]]0[123].*$/winter/g
 #winter 
 sed -i .bkp1 -E 's/;20[[:digit:]][[:digit:]]12[23][[:digit:]].*$/;winter/' meteo-bigdata-shrinked-switched-clean-withheader.csv
