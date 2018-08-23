@@ -2,6 +2,16 @@ from numpy import genfromtxt
 my_data = genfromtxt('meteo_dataset.txt', delimiter=';', dtype="f8,S6", names=True)
 (temp,label)=my_data['t'],my_data['season']
 
+import numpy as np
+my_rec = my_data.view(np.recarray)
+plt.plot(my_rec.t,my_rec.date,'bo')
+plt.show()
+
+import matplotlib.pyplot as plt
+plt.imshow(my_data,cmap=plt.cm.binary)
+plt.show()
+
+
 from keras import models
 from keras import layers
 
@@ -12,11 +22,12 @@ network.add(layers.Dense(4, activation='softmax'))
 network.compile(optimizer='rmsprop',loss='categorical_crossentropy',metrics=['accuracy'])
 #normalization
 
+print('Coucou')
 
 #encodage des labels
 from keras.utils import to_categorical
 
-#label = to_categorical(label)
+label = to_categorical(label)
 
 
 network.fit(temp, label,epochs=5, batch_size=128)
