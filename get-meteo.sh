@@ -3,6 +3,7 @@
 ##########
 #Phase 1 : récupérer les fichiers depuis Meteo France entre 2008 et 2018
 ##########
+echo '1 - GET'
 for ((annee = 2008; annee < 2018; annee++)) ; 
 do 
 	for mois in $(seq -w 01 12) ;
@@ -12,9 +13,12 @@ do
 done
 cd dataset
 # les décompresser, les concatener et les supprimer
-gunzip *
+echo '2 - UNCOMPRESS'
+gunzip synop.20*.gz
+echo '3 - CONCAT'
 cat synop.20*.csv > meteo-bigdata.csv
-gzip *
+echo '4 - COMPRESS'
+gzip synop.20*.csv
 #rm -f synop.20*
 
 
@@ -28,11 +32,13 @@ gzip *
 #TOURS	07240
 #REIMS-PRUNAY	07072
 
+echo '5 - FILTER STATIONS'
 grep -E '^07005|^07037|^07139|^07149|^07240|^07072' meteo-bigdata.csv > meteo-bigdata-france_metro.csv
 
 ##########
 #Phase 3 : ne conserver que les colonnes 2 (Date) et 8 temperature et les inverser
 ##########
+echo '5 - FILTER COLUMNS'
 cat meteo-bigdata-france_metro.csv|cut -d ';' -f 8,2 > meteo-bigdata-shrinked.csv
 awk  -F";" '{print $2 ";" $1}' meteo-bigdata-shrinked.csv > meteo-bigdata-shrinked-switched-clean.csv
 awk  -F";" '{print $2 ";" $1 ";" $1}' meteo-bigdata-shrinked.csv > meteo-bigdata-shrinked-switched-hours.csv
@@ -49,6 +55,7 @@ cat ../header.csv meteo-bigdata-shrinked-switched-clean.csv > meteo-bigdata-shri
 ##########
 #:%s/;20[[:digit:]][[:digit:]]0[123].*$/winter/g
 #winter 
+echo '5 - APPLY SEASON'
 sed -i .bkp1 -E 's/;20[[:digit:]][[:digit:]]12[23][[:digit:]].*;/;winter;/' meteo-bigdata-shrinked-switched-clean-withheader.csv
 sed -i .bkp2 -E 's/;20[[:digit:]][[:digit:]]0[12].*;/;winter;/' meteo-bigdata-shrinked-switched-clean-withheader.csv 
 sed -i .bkp3 -E 's/;20[[:digit:]][[:digit:]]03[01][[:digit:]].*;/;winter;/' meteo-bigdata-shrinked-switched-clean-withheader.csv 
@@ -66,12 +73,14 @@ sed -i .bkpb -E 's/;20[[:digit:]][[:digit:]]1[01].*;/;autumn;/' meteo-bigdata-sh
 sed -i .bkpc -E 's/;20[[:digit:]][[:digit:]]12[01][[:digit:]].*;/;autumn;/' meteo-bigdata-shrinked-switched-clean-withheader.csv
 
 ##### : remplacer les saisons par une valeur numérique
+echo '6 - SEASON TO NUMBER'
 sed -E 's/winter/0./' meteo-bigdata-shrinked-switched-clean-withheader.csv >iadata.csv
 sed -i .bkp -E 's/spring/1./' iadata.csv
 sed -i .bkp -E 's/summer/2./' iadata.csv
 sed -i .bkp -E 's/autumn/3./' iadata.csv
 ### supprimer les mq
 #clean mq data
+echo '7 - PURGE QUIRKS'
 sed -i -E '/^mq;/ d' iadata.csv
 mv iadata.csv ..
 cd ..
@@ -79,4 +88,5 @@ cd ..
 #########
 # phase 6 : lancement de la reconnaissance
 #########
+echo '7 - GO FOR AI'
 python3 ai1.py
