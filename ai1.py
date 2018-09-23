@@ -1,15 +1,16 @@
 from numpy import genfromtxt
-my_data = genfromtxt('meteo_dataset.txt', delimiter=';', dtype="f8,S6", names=True)
+my_data = genfromtxt('iadata.csv', delimiter=';', dtype="f8,S6", names=True)
 (temp,label)=my_data['t'],my_data['season']
 
 import numpy as np
+import matplotlib.pyplot as plt
 my_rec = my_data.view(np.recarray)
-plt.plot(my_rec.t,my_rec.date,'bo')
+plt.plot(my_rec.t,my_rec.season,'b.')
+plt.ylim (0.,4)
 plt.show()
 
-import matplotlib.pyplot as plt
-plt.imshow(my_data,cmap=plt.cm.binary)
-plt.show()
+#plt.imshow(my_data,cmap=plt.cm.binary)
+#plt.show()
 
 
 from keras import models

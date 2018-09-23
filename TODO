@@ -2,7 +2,7 @@ X DATA GET
 X wget script
 X DATA PREP
 X Openrefine (Openrefine client)
-concatener le fichier récupéré et les données
+Xi concatener le fichier récupéré et les données
 prendre la temperature max par jour ?
 IA
 Keras
