@@ -41,13 +41,14 @@ grep -E '^07005|^07037|^07139|^07149|^07240|^07072' meteo-bigdata.csv > meteo-bi
 echo '5 - FILTER COLUMNS'
 cat meteo-bigdata-france_metro.csv|cut -d ';' -f 8,2 > meteo-bigdata-shrinked.csv
 awk  -F";" '{print $2 ";" $1}' meteo-bigdata-shrinked.csv > meteo-bigdata-shrinked-switched-clean.csv
-awk  -F";" '{print $2 ";" $1 ";" $1}' meteo-bigdata-shrinked.csv > meteo-bigdata-shrinked-switched-hours.csv
+#awk  -F";" '{print $2 ";" $1 ";" $1}' meteo-bigdata-shrinked.csv > meteo-bigdata-shrinked-switched-hours.csv
 
 ##########
 #Phase 4 : purger les titres de la concatenation des fichiers
 ##########
 #head -1 meteo-bigdata-shrinked-switched.csv > header.csv
 #grep -v 't;date' meteo-bigdata-shrinked-switched.csv > meteo-bigdata-shrinked-switched-clean.csv
+echo '5 - CLEAN HEADERS'
 cat ../header.csv meteo-bigdata-shrinked-switched-clean.csv > meteo-bigdata-shrinked-switched-clean-withheader.csv
 
 ##########
@@ -55,22 +56,22 @@ cat ../header.csv meteo-bigdata-shrinked-switched-clean.csv > meteo-bigdata-shri
 ##########
 #:%s/;20[[:digit:]][[:digit:]]0[123].*$/winter/g
 #winter 
-echo '5 - APPLY SEASON'
-sed -i .bkp1 -E 's/;20[[:digit:]][[:digit:]]12[23][[:digit:]].*;/;winter;/' meteo-bigdata-shrinked-switched-clean-withheader.csv
-sed -i .bkp2 -E 's/;20[[:digit:]][[:digit:]]0[12].*;/;winter;/' meteo-bigdata-shrinked-switched-clean-withheader.csv 
-sed -i .bkp3 -E 's/;20[[:digit:]][[:digit:]]03[01][[:digit:]].*;/;winter;/' meteo-bigdata-shrinked-switched-clean-withheader.csv 
+echo '6 - APPLY SEASON'
+sed -i .bkp1 -E 's/;20[[:digit:]][[:digit:]]12[23][[:digit:]].*$/;winter/' meteo-bigdata-shrinked-switched-clean-withheader.csv
+sed -i .bkp2 -E 's/;20[[:digit:]][[:digit:]]0[12].*$/;winter/' meteo-bigdata-shrinked-switched-clean-withheader.csv 
+sed -i .bkp3 -E 's/;20[[:digit:]][[:digit:]]03[01][[:digit:]].*$/;winter/' meteo-bigdata-shrinked-switched-clean-withheader.csv 
 #spring
-sed -i .bkp4 -E 's/;20[[:digit:]][[:digit:]]03[23][[:digit:]].*;/;spring;/' meteo-bigdata-shrinked-switched-clean-withheader.csv 
-sed -i .bkp5 -E 's/;20[[:digit:]][[:digit:]]0[45].*;/;spring;/' meteo-bigdata-shrinked-switched-clean-withheader.csv 
-sed -i .bkp6 -E 's/;20[[:digit:]][[:digit:]]06[01][[:digit:]].*;/;spring/' meteo-bigdata-shrinked-switched-clean-withheader.csv
+sed -i .bkp4 -E 's/;20[[:digit:]][[:digit:]]03[23][[:digit:]].*$/;spring/' meteo-bigdata-shrinked-switched-clean-withheader.csv 
+sed -i .bkp5 -E 's/;20[[:digit:]][[:digit:]]0[45].*$/;spring/' meteo-bigdata-shrinked-switched-clean-withheader.csv 
+sed -i .bkp6 -E 's/;20[[:digit:]][[:digit:]]06[01][[:digit:]].*$/;spring/' meteo-bigdata-shrinked-switched-clean-withheader.csv
 #summer 
-sed -i .bkp7 -E 's/;20[[:digit:]][[:digit:]]06[23][[:digit:]].*;/;summer;/' meteo-bigdata-shrinked-switched-clean-withheader.csv
-sed -i .bkp8 -E 's/;20[[:digit:]][[:digit:]]0[78].*;/;summer;/' meteo-bigdata-shrinked-switched-clean-withheader.csv 
-sed -i .bkp9 -E 's/;20[[:digit:]][[:digit:]]09[01][[:digit:]].*;/;summer;/' meteo-bigdata-shrinked-switched-clean-withheader.csv 
+sed -i .bkp7 -E 's/;20[[:digit:]][[:digit:]]06[23][[:digit:]].*$/;summer/' meteo-bigdata-shrinked-switched-clean-withheader.csv
+sed -i .bkp8 -E 's/;20[[:digit:]][[:digit:]]0[78].*$/;summer/' meteo-bigdata-shrinked-switched-clean-withheader.csv 
+sed -i .bkp9 -E 's/;20[[:digit:]][[:digit:]]09[01][[:digit:]].*$/;summer/' meteo-bigdata-shrinked-switched-clean-withheader.csv 
 #autumn
-sed -i .bkpa -E 's/;20[[:digit:]][[:digit:]]09[23][[:digit:]].*;/;autumn;/' meteo-bigdata-shrinked-switched-clean-withheader.csv 
-sed -i .bkpb -E 's/;20[[:digit:]][[:digit:]]1[01].*;/;autumn;/' meteo-bigdata-shrinked-switched-clean-withheader.csv 
-sed -i .bkpc -E 's/;20[[:digit:]][[:digit:]]12[01][[:digit:]].*;/;autumn;/' meteo-bigdata-shrinked-switched-clean-withheader.csv
+sed -i .bkpa -E 's/;20[[:digit:]][[:digit:]]09[23][[:digit:]].*$/;autumn/' meteo-bigdata-shrinked-switched-clean-withheader.csv 
+sed -i .bkpb -E 's/;20[[:digit:]][[:digit:]]1[01].*$/;autumn/' meteo-bigdata-shrinked-switched-clean-withheader.csv 
+sed -i .bkpc -E 's/;20[[:digit:]][[:digit:]]12[01][[:digit:]].*$/;autumn/' meteo-bigdata-shrinked-switched-clean-withheader.csv
 
 ##### : remplacer les saisons par une valeur numérique
 echo '6 - SEASON TO NUMBER'
