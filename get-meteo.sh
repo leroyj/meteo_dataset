@@ -40,8 +40,10 @@ grep -E '^07005|^07037|^07139|^07149|^07240|^07072' meteo-bigdata.csv > meteo-bi
 ##########
 echo '5 - FILTER COLUMNS'
 cat meteo-bigdata-france_metro.csv|cut -d ';' -f 8,2 > meteo-bigdata-shrinked.csv
-awk  -F";" '{print $2 ";" $1}' meteo-bigdata-shrinked.csv > meteo-bigdata-shrinked-switched-clean.csv
-#awk  -F";" '{print $2 ";" $1 ";" $1}' meteo-bigdata-shrinked.csv > meteo-bigdata-shrinked-switched-hours.csv
+#awk  -F";" '{print $2 ";" $1}' meteo-bigdata-shrinked.csv > meteo-bigdata-shrinked-switched-clean.csv
+awk  -F";" '{print $2 ";" $1 ";" $1}' meteo-bigdata-shrinked.csv > meteo-bigdata-shrinked-switched-hours.csv
+#sed -i .bkp1 -E 's/;[[:digit:]]\{8\}[[:digit:]]\{6\};.*$/;\1;\3/' meteo-bigdata-shrinked-switched-clean-withheader.csv
+sed  -i .bkp1  's/;[[:digit:]]\{8\}\(.*\);\(.*\)$/;\1;\2/' meteo-bigdata-shrinked-switched-hours.csv 
 
 ##########
 #Phase 4 : purger les titres de la concatenation des fichiers
@@ -49,7 +51,7 @@ awk  -F";" '{print $2 ";" $1}' meteo-bigdata-shrinked.csv > meteo-bigdata-shrink
 #head -1 meteo-bigdata-shrinked-switched.csv > header.csv
 #grep -v 't;date' meteo-bigdata-shrinked-switched.csv > meteo-bigdata-shrinked-switched-clean.csv
 echo '5 - CLEAN HEADERS'
-cat ../header.csv meteo-bigdata-shrinked-switched-clean.csv > meteo-bigdata-shrinked-switched-clean-withheader.csv
+cat ../header.csv meteo-bigdata-shrinked-switched-hours.csv > meteo-bigdata-shrinked-switched-clean-withheader.csv
 
 ##########
 #Phase 5 : remplacer les dates par les saisons
@@ -74,11 +76,12 @@ sed -i .bkpb -E 's/;20[[:digit:]][[:digit:]]1[01].*$/;autumn/' meteo-bigdata-shr
 sed -i .bkpc -E 's/;20[[:digit:]][[:digit:]]12[01][[:digit:]].*$/;autumn/' meteo-bigdata-shrinked-switched-clean-withheader.csv
 
 ##### : remplacer les saisons par une valeur numérique
-echo '6 - SEASON TO NUMBER'
-sed -E 's/winter/0./' meteo-bigdata-shrinked-switched-clean-withheader.csv >iadata.csv
-sed -i .bkp -E 's/spring/1./' iadata.csv
-sed -i .bkp -E 's/summer/2./' iadata.csv
-sed -i .bkp -E 's/autumn/3./' iadata.csv
+#echo '6 - SEASON TO NUMBER'
+#sed -E 's/winter/0./' meteo-bigdata-shrinked-switched-clean-withheader.csv >iadata.csv
+cat meteo-bigdata-shrinked-switched-clean-withheader.csv >iadata.csv
+#sed -i .bkp -E 's/spring/1./' iadata.csv
+#sed -i .bkp -E 's/summer/2./' iadata.csv
+#sed -i .bkp -E 's/autumn/3./' iadata.csv
 ### supprimer les mq
 #clean mq data
 echo '7 - PURGE QUIRKS'
