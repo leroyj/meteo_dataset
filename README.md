@@ -30,3 +30,20 @@ TODO :
 * Une application PWA avec le modèle chargé en local pour l'utiliser à tout moment (tensorflow.js ?)
 * utiliser les services en ligne GCP
 * S'attaquer à vrai problème utileo
+
+## Installation
+Prévoir de l'espace sur votre disque car les datasets sont volumineux et les scripts ne sont pas optimisés.
+Sur MacOS, installer conda (Anaconda) pour éviter les casses-têtes avec Homebrew et pyenv.
+installer keras et jupyter.
+
+Lancer le script shell get-meteo.sh :
+`source get-meteo.sh`
+puis lancer jupyter
+`jupyter notebook`
+puis chargez le fichier 'meteo-idiote.ipynb'
+changer la température et l'heure 
+`
+Temperature=10.
+Heure=30000.
+`
+enfin lancez tous le notebook.
