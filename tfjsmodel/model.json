@@ -1,0 +1,1 @@
+{"modelTopology": null, "weightsManifest": [{"paths": ["group1-shard1of1"], "weights": [{"name": "dense_5/kernel", "shape": [2, 512], "dtype": "float32"}, {"name": "dense_5/bias", "shape": [512], "dtype": "float32"}, {"name": "dense_6/kernel", "shape": [512, 4], "dtype": "float32"}, {"name": "dense_6/bias", "shape": [4], "dtype": "float32"}]}]}
