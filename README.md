@@ -18,18 +18,19 @@ Pour apprendre
 * caler les données (NORMALISER)
 * Construire le modèle (Keras model)
 * Le sauvegarder et le réutiliser
+* avoir un jeu de test
 * prédire
+* embarquer le modèle dans une page web (Tensorflow.js)
 
 
 TODO : 
 * compléter les analyses de données
 * faire une repréentation en 3D avec matplotlib
 * mélanger les données
-* avoir un jeu de test
 * /!\ jouer avec les fonctions d'objectif (perte) 
-* Une application PWA avec le modèle chargé en local pour l'utiliser à tout moment (tensorflow.js ?)
-* utiliser les services en ligne GCP
-* S'attaquer à vrai problème utileo
+* Une application PWA 
+* Utiliser les services en ligne GCP ou AWS Lambda
+* S'attaquer à vrai problème utile
 
 ## Installation
 Prévoir de l'espace sur votre disque car les datasets sont volumineux et les scripts ne sont pas optimisés.
