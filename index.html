@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Météo idiote</title>
+        <meta name="description" content="Ma météo idiote déduit la saison de la température à une heure donnée.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.12.2"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.13.2"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <table>
+            <tbody>
+            <tr>            
+                <td>Temperature (en degré Celsius):</td><td> <input type="text" id="myTemp" title="Température" value="32" placeholder="32" data-cip-id="myTemp"></td>
+            </tr>
+            <tr>            
+                <td>Heure (HHMMSS):</td><td> <input type="text" id="myHour" title="Heure" value="120000" placeholder="120000" data-cip-id="myHour"></td>
+            </tr>
+            <td>Et maintenant... </td><td><input id="myButtonPredict" type="button" value="Prédire" onclick="{
+                    document.getElementById('myDivSummary').innerHTML = 'Tensorflowjs v' + tf.version.tfjs                                                                               
+                    myPredict=async function () {
+                        document.getElementById('myButtonPredict').style.backgroundColor = 'red'  
+
+                        model = await tf.loadModel('tfjsmodel/model.json');
+                        //document.getElementById('myDivSummary').innerHTML = ''      
+                        // await model.summary(null,null,x => {document.getElementById('myDivSummary').innerHTML += x + '<br>'});
+
+                        const myShape = '1,2'.split(',').map(Number);
+                        NormalizedTemp=(+document.getElementById('myTemp').value+273.15)/350
+                        NormalizedHour=document.getElementById('myHour').value/240000
+                        myPredictArray = await model.predict(tf.tensor2d([[NormalizedTemp,NormalizedHour]], myShape )) 
+                        
+                        myResult = myPredictArray.dataSync();
+                        //document.getElementById('myDiv124').innerHTML = 'Input ('+ NormalizedTemp +
+                        //', ' + NormalizedHour + ') Output = ' + myResult + '--' + myResult[0]+'<br>'
+
+                        console.log('(' + NormalizedTemp+ ', ' + NormalizedHour + '): ' +  myResult[0])
+                        document.getElementById('myButtonPredict').style.backgroundColor = 'yellow'
+                        
+                        mySeason = 'non-defini'
+                        let i = myResult.indexOf(Math.max(...myResult));
+                        switch (i){
+                            case 1:
+                                mySeason = 'Printemps';
+                                break;
+                            case 2:
+                                mySeason = 'Été';
+                                break;
+                            case 0:
+                                mySeason = 'Automne';
+                                break;
+                            case 3:
+                                mySeason = 'Hiver';
+                                break;
+                        }
+                        document.getElementById('myDiv123').innerHTML = '[1,0] Printemps = ' + myResult[1].toFixed(4) +'<br>'
+                        document.getElementById('myDiv123').innerHTML += '[0,1] Été = ' + myResult[2].toFixed(4) +'<br>'
+                        document.getElementById('myDiv123').innerHTML += '[0,0] Automne = ' + myResult[0].toFixed(4) +'<br>'
+                        document.getElementById('myDiv123').innerHTML += '[1,1] Hiver = ' + myResult[3].toFixed(4) +'<br>'
+                        
+                        document.getElementById('myDiv124').innerHTML = 'Je prédis que c est : ' + mySeason + ' (avec une probabilité de ' + (+myResult[i]*100).toFixed(2) +'%)'
+
+                        document.getElementById('myButtonPredict').style.backgroundColor = 'lightgray' 
+                    }
+                    myPredict()
+                 }"></td> 
+            <tr>
+                <td><div id='myDiv123'>...</div><br></td>
+                <td><div id='myDiv124'>...</div><br></td>
+            </tr>
+            </tbody>
+        </table>
+        <div id='myDivSummary'>...</div>
+
+
+
+    </body>
+</html>
