@@ -56,7 +56,8 @@
                                     var NouvCouleurLueur = couleurLueur[Math.trunc(indexHour*48*2/100)];
                                     console.log(indexHour+'(' + NouvCouleurCiel+ ', ' + NouvCouleurLueur + ')')
                                     document.getElementsByTagName('html')[0].style.background="radial-gradient(circle, #"+NouvCouleurLueur +" 0%,#"+NouvCouleurCiel+" 100%)";
-                                    document.getElementById('myButtonPredict').click();
+                                    myPredict();
+                                    // document.getElementById('myButtonPredict').click();
                                 });
                                 $('#myHour3').on('change', function() {
                                     d=$(this).val();
@@ -72,7 +73,8 @@
                                     var NouvCouleurLueur = couleurLueur[Math.trunc(indexHour*48*2/100)];
                                     console.log(indexHour+'(' + NouvCouleurCiel+ ', ' + NouvCouleurLueur + ')')
                                     document.getElementsByTagName('html')[0].style.background="radial-gradient(circle, #"+NouvCouleurLueur +" 0%,#"+NouvCouleurCiel+" 100%)";
-                                    document.getElementById('myButtonPredict').click();
+                                    myPredict();
+                                    // document.getElementById('myButtonPredict').click();
                                 });
                             });
                     </script>
@@ -85,10 +87,13 @@
                 </td>
             </tr>
             <tr>
-            <td><input id="myButtonPredict" type="button" value="Prédire" onclick="{
-                    document.getElementById('version').innerHTML = 'Tensorflowjs v' + tf.version.tfjs                                                                               
-                    myPredict=async function () {
-                        document.getElementById('myButtonPredict').style.backgroundColor = 'red'  
+            <td>
+                <!-- <input id="myButtonPredict" type="button" value="Prédire"> -->
+                <script>
+                            $(function() {
+                        document.getElementById('version').innerHTML = 'Tensorflowjs v' + tf.version.tfjs                                                                               
+                        myPredict=async function () {
+                        // document.getElementById('myButtonPredict').style.backgroundColor = 'red'  
 
                         model = await tf.loadModel('tfjsmodel/model.json');
                         //document.getElementById('version').innerHTML = ''      
@@ -104,7 +109,7 @@
                         //', ' + NormalizedHour + ') Output = ' + myResult + '--' + myResult[0]+'<br>'
 
                         console.log('(' + NormalizedTemp+ ', ' + NormalizedHour + '): ' +  myResult[0])
-                        document.getElementById('myButtonPredict').style.backgroundColor = 'yellow'
+                        // document.getElementById('myButtonPredict').style.backgroundColor = 'yellow'
                         
                         mySeason = 'non-defini'
                         let i = myResult.indexOf(Math.max(...myResult));
@@ -127,12 +132,17 @@
                         document.getElementById('resultatDetaille').innerHTML += 'Automne   = ' + (myResult[0]*100).toFixed(1) +'%<br>'
                         document.getElementById('resultatDetaille').innerHTML += 'Hiver     = ' + (myResult[3]*100).toFixed(1) +'%<br>'
                         
-                        document.getElementById('resultat').innerHTML = 'C\'est un temps <b>d' + mySeason + '</b> (à ' + (+myResult[i]*100).toFixed(1) +'%)'
+                        document.getElementById('resultat').innerHTML = '<b>d' + mySeason + '</b> (à ' + (+myResult[i]*100).toFixed(1) +'%)'
 
-                        document.getElementById('myButtonPredict').style.backgroundColor = 'lightgray' 
+                        // document.getElementById('myButtonPredict').style.backgroundColor = 'lightgray' 
                     }
-                    myPredict()
-                 }"></td>
+/*                         $('#myButtonPredict').on('click', function (){
+                    myPredict();
+                 });
+ */                });
+                 </script>
+                
+</td>
             </tr>
             <tr>
                 <td><br></td>
@@ -148,18 +158,21 @@
                                 myt=$(this).val();
                                 document.getElementById('temperature').innerHTML = myt;
                                 document.getElementsByClassName("thermometer")[0].style.background = "-webkit-linear-gradient(top, #fff 0%, #fff " + (100*(1-(Number(myt)+30)/(50+30))).toFixed(0) + "%, #db3f02 " + (100*(1-(Number(myt)+30)/(50+30))).toFixed(0) + "%, #db3f02 100%)";
+                                myPredict();
                             });
                             $('#myTemp').on('change', function() {
                                 myt=$(this).val();
                                 document.getElementById('temperature').innerHTML = myt;
                                 document.getElementsByClassName("thermometer")[0].style.background = "-webkit-linear-gradient(top, #fff 0%, #fff " + (100*(1-(Number(myt)+30)/(50+30))).toFixed(0) + "%, #db3f02 " + (100*(1-(Number(myt)+30)/(50+30))).toFixed(0) + "%, #db3f02 100%)";
-                                document.getElementById('myButtonPredict').click();
+                                myPredict();
+                                // document.getElementById('myButtonPredict').click();
                             });
                         });
                 </script>
     </div>
         <span class="thermometer"><span id="temperature">14</span>&deg;C</span>​
         <div id='footer' class='center'>
+            C'est un temps 
             <div id='resultat'>...</div>
             <div id='resultatDetaille'>...</div>
             <div id='version'>...</div>
