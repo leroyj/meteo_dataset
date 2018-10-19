@@ -1,0 +1,108 @@
+/**
+ * Pure CSS thermometer
+ *
+ * http://jsfiddle.net/mirceageorgescu/gBW3Y/
+ */
+
+
+
+html{
+    background:radial-gradient(circle, #fcee92 0%,#ebcf12 100%);
+    /* background: radial-gradient(circle, #929afc 0%,#1f12eb 100%); */
+    height:100%;
+    width:100%;
+    font:normal 12px helvetica, arial, sans-serif;
+}
+
+/* table.center {
+    margin-left:auto; 
+    margin-right:auto;
+  }
+ */
+#footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+#resultat {
+    font:normal 24px helvetica, arial, sans-serif;
+}
+
+#resultatDetaille {
+    font:normal 12px helvetica, arial, sans-serif;
+    color:#888888
+}
+
+#version {
+    font:italic 12px helvetica, arial, sans-serif;
+    color:#888888
+}
+
+.center {
+    /* width: 500px; */
+    margin: 0 auto;
+    text-align: center;
+}
+
+.slider-wrapper {
+  display: inline-block;
+  width: 20px;
+  height: 150px;
+  padding: 0;
+}
+.slider-wrapper input {
+    width: 150px;
+    height: 20px;
+    margin: 0;
+    transform-origin: 75px 75px;
+     transform: rotate(-90deg);
+  }
+
+/* Thermometer column and text */
+.thermometer{
+    margin:0 50%;
+/*     left:-15px;
+    top:-100px; */
+    width:22px;
+    height:150px;
+    display:block;
+    font:bold 14px/152px helvetica, arial, sans-serif;
+    text-align:center;
+    text-indent: 36px;
+    background: -webkit-linear-gradient(top, #fff 0%, #fff 45%, #db3f02 45%, #db3f02 100%);
+    border-radius:22px 22px 0 0;
+    border:5px solid #4a1c03;
+    border-bottom:none;
+    position:absolute;
+    box-shadow:inset 0 0 0 4px #fff;
+    color:#4a1c03;
+}
+
+/* Thermometer Bulb */
+.thermometer:before{
+    content:' ';
+    width:44px;
+    height:44px;
+    display:block;
+    position:absolute;
+    top:142px;
+    left:-16px;
+    z-index:-1; /* Place the bulb under the column */
+    background:#db3f02;
+    border-radius:44px;
+    border:5px solid #4a1c03;
+    box-shadow:inset 0 0 0 4px #fff;
+}
+
+/* This piece here connects the column with the bulb */
+.thermometer:after{
+    content:' ';
+    width:14px;
+    height:7px;
+    display:block;
+    position:absolute;
+    top:146px;
+    left:4px;
+    background:#db3f02;
+}

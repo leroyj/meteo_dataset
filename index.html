@@ -1,38 +1,98 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Météo idiote</title>
         <meta name="description" content="Ma météo idiote déduit la saison de la température à une heure donnée.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-        <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.12.2"></script> -->
+        <link rel="stylesheet" href="dabbler.css">
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.13.2"></script>
+ 
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script type="text/javascript" src="jquery.timepicker.min.js"></script>
+        <script type="text/javascript" src="color-gradient.js"></script>
+        <link rel="stylesheet" type="text/css" href="jquery.timepicker.css" />
+        <link rel="stylesheet" type="text/css" href="thermometer.css" />
     </head>
     <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-        <table>
+        <h1 class="center">Y a plus de saison ma bonne dame !</h1>
+        <p class='center'>En choisissant une température et une heure de la journée cette intelligence artificielle prédit la saison.</p>
+        <table class="center">
             <tbody>
             <tr>            
-                <td>Temperature (en degré Celsius):</td><td> <input type="text" id="myTemp" title="Température" value="32" placeholder="32" data-cip-id="myTemp"></td>
+		        <td> 
+                    <input type="range" id="myHour3" title="Heures" size="3" min="0" max="235959" step="3000" value="120000" placeholder="120000" data-cip-id="myHour3" list='tickmarks'>
+                    <datalist id="tickmarks">
+                            <option value="000000">
+                            <option value="030000">
+                            <option value="060000">
+                            <option value="090000">
+                            <option value="120000">
+                            <option value="150000">
+                            <option value="180000">
+                            <option value="210000">
+                            <option value="240000">
+                    </datalist>
+                    <script>
+                            $(function() {
+                                $('#setTimeButton').on('click', function (){
+                                    d=new Date();
+                                    d3=d.getHours().toString().padStart(2, '0')+d.getMinutes().toString().padStart(2, '0')+d.getSeconds().toString().padStart(2, '0')
+                                    d2=d.getHours().toString().padStart(2, '0')+':'+d.getMinutes().toString().padStart(2, '0')+':'+d.getSeconds().toString().padStart(2, '0')
+                                    document.getElementById('myHour3').value = d3;
+                                    document.getElementById('myHour2').value = d2;
+                                    document.getElementById('myHour').value = d3;
+                                });
+                                $('#myHour3').on('input', function() {
+                                    d=$(this).val();
+                                    textHour=d;
+                                    document.getElementById('myHour').value = textHour; 
+                                    document.getElementById('myHour2').value = textHour;
+                                    intHour=parseInt(textHour);
+                                    var indexHour = Math.abs(Math.trunc(intHour*100/240000)-50);
+                                    console.log('(' + intHour+ ', ' + indexHour + '): ' +  d)
+                                    var couleurCiel = generateColor('#1f12eb','#ebcf12',48);
+                                    var NouvCouleurCiel = couleurCiel[Math.trunc(indexHour*48*2/100)];
+                                    var couleurLueur = generateColor('#929afc','#fcee92',48);
+                                    var NouvCouleurLueur = couleurLueur[Math.trunc(indexHour*48*2/100)];
+                                    console.log(indexHour+'(' + NouvCouleurCiel+ ', ' + NouvCouleurLueur + ')')
+                                    document.getElementsByTagName('html')[0].style.background="radial-gradient(circle, #"+NouvCouleurLueur +" 0%,#"+NouvCouleurCiel+" 100%)";
+                                    document.getElementById('myButtonPredict').click();
+                                });
+                                $('#myHour3').on('change', function() {
+                                    d=$(this).val();
+                                    textHour=d;
+                                    document.getElementById('myHour').value = textHour; 
+                                    document.getElementById('myHour2').value = textHour;
+                                    intHour=parseInt(textHour);
+                                    var indexHour = Math.abs(Math.trunc(intHour*100/240000)-50);
+                                    console.log('(' + intHour+ ', ' + indexHour + '): ' +  d)
+                                    var couleurCiel = generateColor('#1f12eb','#ebcf12',48);
+                                    var NouvCouleurCiel = couleurCiel[Math.trunc(indexHour*48*2/100)];
+                                    var couleurLueur = generateColor('#929afc','#fcee92',48);
+                                    var NouvCouleurLueur = couleurLueur[Math.trunc(indexHour*48*2/100)];
+                                    console.log(indexHour+'(' + NouvCouleurCiel+ ', ' + NouvCouleurLueur + ')')
+                                    document.getElementsByTagName('html')[0].style.background="radial-gradient(circle, #"+NouvCouleurLueur +" 0%,#"+NouvCouleurCiel+" 100%)";
+                                    document.getElementById('myButtonPredict').click();
+                                });
+                            });
+                    </script>
+                </td>
             </tr>
             <tr>            
-                <td>Heure (HHMMSS):</td><td> <input type="text" id="myHour" title="Heure" value="120000" placeholder="120000" data-cip-id="myHour"></td>
+                <td> Heure du jour<input type="text" id="myHour2" title="Heure" size="8" value="12:00:00" placeholder="12:00:00" data-cip-id="myHour2">
+                    <input type="hidden" id="myHour" title="Heure" value="120000" data-cip-id="myHour">
+                    <button id="setTimeButton">Maintenant</button>
+                </td>
             </tr>
-            <td>Et maintenant... </td><td><input id="myButtonPredict" type="button" value="Prédire" onclick="{
-                    document.getElementById('myDivSummary').innerHTML = 'Tensorflowjs v' + tf.version.tfjs                                                                               
+            <tr>
+            <td><input id="myButtonPredict" type="button" value="Prédire" onclick="{
+                    document.getElementById('version').innerHTML = 'Tensorflowjs v' + tf.version.tfjs                                                                               
                     myPredict=async function () {
                         document.getElementById('myButtonPredict').style.backgroundColor = 'red'  
 
                         model = await tf.loadModel('tfjsmodel/model.json');
-                        //document.getElementById('myDivSummary').innerHTML = ''      
-                        // await model.summary(null,null,x => {document.getElementById('myDivSummary').innerHTML += x + '<br>'});
+                        //document.getElementById('version').innerHTML = ''      
+                        // await model.summary(null,null,x => {document.getElementById('version').innerHTML += x + '<br>'});
 
                         const myShape = '1,2'.split(',').map(Number);
                         NormalizedTemp=(+document.getElementById('myTemp').value+273.15)/350
@@ -40,7 +100,7 @@
                         myPredictArray = await model.predict(tf.tensor2d([[NormalizedTemp,NormalizedHour]], myShape )) 
                         
                         myResult = myPredictArray.dataSync();
-                        //document.getElementById('myDiv124').innerHTML = 'Input ('+ NormalizedTemp +
+                        //document.getElementById('resultat').innerHTML = 'Input ('+ NormalizedTemp +
                         //', ' + NormalizedHour + ') Output = ' + myResult + '--' + myResult[0]+'<br>'
 
                         console.log('(' + NormalizedTemp+ ', ' + NormalizedHour + '): ' +  myResult[0])
@@ -50,38 +110,59 @@
                         let i = myResult.indexOf(Math.max(...myResult));
                         switch (i){
                             case 1:
-                                mySeason = 'Printemps';
+                                mySeason = 'e printemps';
                                 break;
                             case 2:
-                                mySeason = 'Été';
+                                mySeason = '\'été';
                                 break;
                             case 0:
-                                mySeason = 'Automne';
+                                mySeason = '\'automne';
                                 break;
                             case 3:
-                                mySeason = 'Hiver';
+                                mySeason = '\'hiver';
                                 break;
                         }
-                        document.getElementById('myDiv123').innerHTML = '[1,0] Printemps = ' + myResult[1].toFixed(4) +'<br>'
-                        document.getElementById('myDiv123').innerHTML += '[0,1] Été = ' + myResult[2].toFixed(4) +'<br>'
-                        document.getElementById('myDiv123').innerHTML += '[0,0] Automne = ' + myResult[0].toFixed(4) +'<br>'
-                        document.getElementById('myDiv123').innerHTML += '[1,1] Hiver = ' + myResult[3].toFixed(4) +'<br>'
+                        document.getElementById('resultatDetaille').innerHTML = 'Printemps  = ' + (myResult[1]*100).toFixed(1) +'%<br>'
+                        document.getElementById('resultatDetaille').innerHTML += 'Été       = ' + (myResult[2]*100).toFixed(1) +'%<br>'
+                        document.getElementById('resultatDetaille').innerHTML += 'Automne   = ' + (myResult[0]*100).toFixed(1) +'%<br>'
+                        document.getElementById('resultatDetaille').innerHTML += 'Hiver     = ' + (myResult[3]*100).toFixed(1) +'%<br>'
                         
-                        document.getElementById('myDiv124').innerHTML = 'Je prédis que c est : ' + mySeason + ' (avec une probabilité de ' + (+myResult[i]*100).toFixed(2) +'%)'
+                        document.getElementById('resultat').innerHTML = 'C\'est un temps <b>d' + mySeason + '</b> (à ' + (+myResult[i]*100).toFixed(1) +'%)'
 
                         document.getElementById('myButtonPredict').style.backgroundColor = 'lightgray' 
                     }
                     myPredict()
-                 }"></td> 
+                 }"></td>
+            </tr>
             <tr>
-                <td><div id='myDiv123'>...</div><br></td>
-                <td><div id='myDiv124'>...</div><br></td>
+                <td><br></td>
+                <td><br></td>
             </tr>
             </tbody>
         </table>
-        <div id='myDivSummary'>...</div>
-
-
-
+        <div class='temp hot'>
+                <input type="range" id="myTemp" title="Température" size="3" min="-30" max="50" value="14" placeholder="14" data-cip-id="myTemp">
+                <script>
+                        $(function() {
+                            $('#myTemp').on('input', function() {
+                                myt=$(this).val();
+                                document.getElementById('temperature').innerHTML = myt;
+                                document.getElementsByClassName("thermometer")[0].style.background = "-webkit-linear-gradient(top, #fff 0%, #fff " + (100*(1-(Number(myt)+30)/(50+30))).toFixed(0) + "%, #db3f02 " + (100*(1-(Number(myt)+30)/(50+30))).toFixed(0) + "%, #db3f02 100%)";
+                            });
+                            $('#myTemp').on('change', function() {
+                                myt=$(this).val();
+                                document.getElementById('temperature').innerHTML = myt;
+                                document.getElementsByClassName("thermometer")[0].style.background = "-webkit-linear-gradient(top, #fff 0%, #fff " + (100*(1-(Number(myt)+30)/(50+30))).toFixed(0) + "%, #db3f02 " + (100*(1-(Number(myt)+30)/(50+30))).toFixed(0) + "%, #db3f02 100%)";
+                                document.getElementById('myButtonPredict').click();
+                            });
+                        });
+                </script>
+    </div>
+        <span class="thermometer"><span id="temperature">14</span>&deg;C</span>​
+        <div id='footer' class='center'>
+            <div id='resultat'>...</div>
+            <div id='resultatDetaille'>...</div>
+            <div id='version'>...</div>
+        </div>
     </body>
 </html>
