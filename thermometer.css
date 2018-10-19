@@ -2,6 +2,7 @@
 .temp {
   position: relative;
   top: 89px;
+  left: 20%;
   width: 150px;
   height: 20px;
   padding: 0 5px 5px 0;
@@ -11,9 +12,9 @@
 }
 
 .hot {
-  /* left: 50px; */
-  left: 30%;
-}
+/*   width: 20%
+  margin: 0 33%;
+ */}
 
 input[type="range"] {
   width: 100%;
@@ -22,7 +23,6 @@ input[type="range"] {
   background: #fff;
   overflow: hidden;
   cursor: pointer;
-  /* -webkit-appearance: none; */
 }
 
 input[type="range"]::-webkit-slider-thumb {
