@@ -32,6 +32,17 @@ TODO :
 * Utiliser les services en ligne GCP ou AWS Lambda
 * S'attaquer à vrai problème utile
 
+KNOWN BUGS :
+* sur mobile superposition des 2 thermometres (et pb de gestion z)
+* changer les couleurs en fonction de la température
+* mettre l'affichage de l'heure avec un meilleur format
+* refactorisation
+* compléter la documentation
+* gestion multilingue
+* identifier les prérequis
+* clarifier la procédure d'installation
+
+
 ## Installation
 Prévoir de l'espace sur votre disque car les datasets sont volumineux et les scripts ne sont pas optimisés.
 Sur MacOS, installer conda (Anaconda) pour éviter les casses-têtes avec Homebrew et pyenv.
