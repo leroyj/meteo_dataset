@@ -22,29 +22,32 @@ Pour apprendre
 * prédire
 * embarquer le modèle dans une page web (Tensorflow.js)
 
-
-TODO : 
-* compléter les analyses de données
-* faire une repréentation en 3D avec matplotlib
-* mélanger les données
-* /!\ jouer avec les fonctions d'objectif (perte) 
-* Une application PWA 
-* Utiliser les services en ligne GCP ou AWS Lambda
-* S'attaquer à vrai problème utile
-
 ## Installation
-Prévoir de l'espace sur votre disque car les datasets sont volumineux et les scripts ne sont pas optimisés.
 Sur MacOS, installer conda (Anaconda) pour éviter les casses-têtes avec Homebrew et pyenv.
 installer keras et jupyter.
 
+Prévoir de l'espace sur votre disque car les datasets sont volumineux et les scripts ne sont pas optimisés.
+
+### Récupération des données
 Lancer le script shell get-meteo.sh :
 `source get-meteo.sh`
-puis lancer jupyter
+
+### Analyse et apprentissage du modèle
+Puis lancer jupyter
 `jupyter notebook`
 puis chargez le fichier 'meteo-idiote.ipynb'
-changer la température et l'heure 
-`
-Temperature=10.
-Heure=30000.
-`
-enfin lancez tous le notebook.
+changer la température et l'heure dans l'avant dernier bloc
+
+Quand vos paramètres sont ajustés vous pouvez l'exporter pour l'exploiter dans tensorflowjs.
+`tensorflowjs_converter --input_format keras model.h5 ../3-web/tfjsmodel`
+
+### Utilisation du modèle via une application de prédiction
+Copier le contenu du répertoire 3-web sur un site web et puis c'est tout.
+Le modèle est dans tfjsmodel récupéré par la conversion précédente.
+
+## Références
+sources utilisées
+* https://codepen.io/karlgroves/pen/riFyn?editors=1100
+* https://thekevinscott.com/tensorflowjs-hello-world/ 
+aller voir https://codepen.io/Silisav/pen/pybKXV
+

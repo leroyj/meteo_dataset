@@ -1,9 +1,18 @@
-X DATA GET
-X wget script
-X DATA PREP
-X Openrefine (Openrefine client)
-Xi concatener le fichier récupéré et les données
-prendre la temperature max par jour ?
-IA
-Keras
-other methods
+TODO :
+* compléter les analyses de données
+* faire une repréentation en 3D avec matplotlib
+* mélanger les données
+* /!\ jouer avec les fonctions d'objectif (perte)
+* Une application PWA
+* Utiliser les services en ligne GCP ou AWS Lambda
+* S'attaquer à vrai problème utile
+
+KNOWN BUGS :
+* sur mobile superposition des 2 thermometres (et pb de gestion z)
+* changer les couleurs en fonction de la température
+* mettre l'affichage de l'heure avec un meilleur format
+* refactorisation
+* compléter la documentation
+* gestion multilingue
+* identifier les prérequis
+* clarifier la procédure d'installation

@@ -86,11 +86,11 @@ cat meteo-bigdata-shrinked-switched-clean-withheader.csv >iadata.csv
 #clean mq data
 echo '7 - PURGE QUIRKS'
 sed -i -E '/^mq;/ d' iadata.csv
-mv iadata.csv ..
+mv iadata.csv ../../2-study-and-train
 cd ..
 
 #########
 # phase 6 : lancement de la reconnaissance
 #########
 echo '7 - GO FOR AI'
-python3 ai1.py
+#python3 ai1.py
