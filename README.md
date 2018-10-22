@@ -22,6 +22,7 @@ Pour apprendre
 * prédire
 * embarquer le modèle dans une page web (Tensorflow.js)
 
+<<<<<<< HEAD
 ## Installation
 Sur MacOS, installer conda (Anaconda) pour éviter les casses-têtes avec Homebrew et pyenv.
 installer keras et jupyter.
@@ -37,11 +38,46 @@ Puis lancer jupyter
 `jupyter notebook`
 puis chargez le fichier 'meteo-idiote.ipynb'
 changer la température et l'heure dans l'avant dernier bloc
+=======
+
+TODO : 
+* compléter les analyses de données
+* faire une repréentation en 3D avec matplotlib
+* mélanger les données
+* /!\ jouer avec les fonctions d'objectif (perte) 
+* Une application PWA 
+* Utiliser les services en ligne GCP ou AWS Lambda
+* S'attaquer à vrai problème utile
+
+KNOWN BUGS :
+* sur mobile superposition des 2 thermometres (et pb de gestion z)
+* changer les couleurs en fonction de la température
+* mettre l'affichage de l'heure avec un meilleur format
+* refactorisation
+* compléter la documentation
+* gestion multilingue
+* identifier les prérequis
+* clarifier la procédure d'installation
+
+
+## Installation
+Prévoir de l'espace sur votre disque car les datasets sont volumineux et les scripts ne sont pas optimisés.
+Sur MacOS, installer conda (Anaconda) pour éviter les casses-têtes avec Homebrew et pyenv.
+installer keras et jupyter.
+
+Lancer le script shell get-meteo.sh :
+`source get-meteo.sh`
+puis lancer jupyter
+`jupyter notebook`
+puis chargez le fichier 'meteo-idiote.ipynb'
+changer la température et l'heure 
+>>>>>>> d7c7b0f3dcc763704a45a0d70ac78e45f4d54664
 `
 Temperature=10.
 Heure=30000.
 `
 enfin lancez tous le notebook.
+<<<<<<< HEAD
 
 Quand vos paramètres sont ajustés vous pouvez l'exporter pour l'exploiter dans tensorflowjs.
 `tensorflowjs_converter --input_format keras model.h5 ../3-web/tfjsmodel`
@@ -56,3 +92,5 @@ sources utilisées
 * https://thekevinscott.com/tensorflowjs-hello-world/ 
 aller voir https://codepen.io/Silisav/pen/pybKXV
 
+=======
+>>>>>>> d7c7b0f3dcc763704a45a0d70ac78e45f4d54664
