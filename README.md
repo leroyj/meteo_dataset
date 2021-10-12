@@ -1,4 +1,10 @@
 # meteo_dataset
+
+## abstract
+This project is about guessing the season based on the temperature (°C).
+[Enjoy the demo!](http://meteo.djoo.org)
+This is only intended to discover Neuron Network and learn a little more about it.
+
 ## Introduction
 C'est un peu mon ML100
 Comment utiliser l'exemple le plus idiot permet tout de même d'apprendre les réseaux de neurones. 
